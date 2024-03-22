@@ -570,7 +570,6 @@ RUN apt-get update
 RUN apt-get install -y openssh-client vim tmux upx-ucl file libmagic-dev tree p7zip-full
 # RUN apt-get install -y libtool autoconf automake=1.16.3 ppa libpython3.9-dev gcc=9.4.0
 
-
 RUN jupyter labextension install @shahinrostami/theme-purple-please
 RUN jupyter labextension install jupyterlab-theme-solarized-dark
 
@@ -610,7 +609,7 @@ ENV PATH "$PATH:/chromedriver"
 
 # install jvd package:
 # RUN /usr/bin/python3 -m pip install git+https://github.com/L1NNA/JARV1S-Ghidra@master
-RUN python -m pip install git+https://github.com/L1NNA/JARV1S-Ghidra@master autopep8 pylint
+# RUN python -m pip install git+https://github.com/L1NNA/JARV1S-Ghidra@master autopep8 pylint
 
 # RDT:
 USER root
