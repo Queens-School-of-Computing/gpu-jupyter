@@ -554,6 +554,7 @@ RUN pip install jupyterhub==1.3.0 jupyterlab==2.2.9 jupyter-server==1.13.5
 RUN pip install --no-cache-dir jupyter-server-proxy==3.2.1 && \
   jupyter serverextension enable --sys-prefix jupyter_server_proxy
 RUN jupyter serverextension enable --py jupyter_server_proxy
+
 ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN jupyter labextension install --log-level=0 @jupyterlab/server-proxy@3.2.1
 RUN pip install jupyter-vscode-proxy lief
@@ -614,18 +615,24 @@ ENV PATH "$PATH:/chromedriver"
 # RDT:
 USER root
 
+# AV - added power-manager to be able to remove the screensaver (set presentation-mode)
 RUN apt-get -y update \
   && apt-get install -y dbus-x11 \
   xfce4 \
   xfce4-panel \
   xfce4-session \
   xfce4-settings \
+ # xfce4-power-manager \
+ # xfce4-screensaver \
   xorg 
+
+# AV - specifically remove and purge xfce4-screensaver to prevent screen locking.
+RUN apt-get remove -y -q --purge xfce4-screensaver
 
 # Remove light-locker to prevent screen lock
 RUN wget 'https://sourceforge.net/projects/turbovnc/files/2.2.5/turbovnc_2.2.5_amd64.deb/download' -O turbovnc_2.2.5_amd64.deb && \
   apt-get install -y -q ./turbovnc_2.2.5_amd64.deb && \
-  apt-get remove -y -q light-locker && \
+  apt-get remove -y -q --purge light-locker && \
   rm ./turbovnc_2.2.5_amd64.deb && \
   ln -s /opt/TurboVNC/bin/* /usr/local/bin/
 
